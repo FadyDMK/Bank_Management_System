@@ -40,7 +40,7 @@ void menu(){
     printf("\t\t  Bank Management System\n");
     printf("################ Welcome To The Main Menu #######################\n");
     printf("#################################################################\n");
-    printf("\n\t1)New Client Registration\n\t2)Show Info of An existing Account\n\t3)Make A Transaction\n\t4)Change Details For An Existing Account\n\t5)Close an Account \n\t0)Exit");
+    printf("\n\t1)New Client Registration\n\t2)Show Info of An existing Account\n\t3)Make A Transaction\n\t4)Change Details For An Existing Account\n\t5)Close an Account \n\t6)Show All The Existing Clients And Their data\n\t0)Exit");
     printf("\n#################################################################\n");
     printf("#################################################################\n\n");
     printf("\nselect your choice: ");
@@ -49,21 +49,31 @@ void menu(){
     //else if (choice==2){info();}
     //else if (choice==3){Trans();}
     //else if (choice==4){mod();}
-    //else if (choice==5){close();}
+    //else if (choice==5){close();}w"
+    else if (choice==6){list();}
     else if (choice==0){system("exit");}
     else {printf("\nInvalid!!\n"); delay(50000);system("exit");}
     
 }
 
 
+//list the info of all existing clients
+void list(){
+    char buf[100];
+    FILE *pfile = fopen("database.txt","r");
+    while (fscanf(pfile, "%s %*s %*s %*s", buf) == 1)
+        printf("%s\n", buf);
+    //if (pfile==NULL){fprintf(pfile,"%s %s\t\t%s\t\t%s\t\t%s\t\t%s\n","Account","Number","Name","Date of Birth","Citizenship","Address");}
+    
+    fclose(pfile);
 
-
+}
 
 //This first function lets us register a new client
 void reg(){
     struct client cl;
     struct client ch;
-    FILE *pfile = fopen("/home/fady/Desktop/project/Bank_Management_System/Bank_Management_System/database.txt","r");
+    FILE *pfile = fopen("database.txt","r");
 
 
      //error handling an error in the file   
@@ -85,10 +95,7 @@ void reg(){
     printf("\nEnter the account number for client: ");
     scanf("%d",&cl.AccountNumber);
 
-    while (fscanf(pfile,"%d\t\t%s\t\t%d/%d/%d\t\t%s\n",&ch.AccountNumber,ch.Name, &ch.DOB.day,&ch.DOB.month,&ch.DOB.year,ch.Citizenship)!= EOF)
-    {
-        printf("%d\t\t%s\t\t%d/%d/%d\t\t%s\n",ch.AccountNumber,ch.Name, ch.DOB.day,ch.DOB.month,ch.DOB.year,ch.Citizenship);
-    }
+  
     
 
     printf("\nEnter the name of the client: ");

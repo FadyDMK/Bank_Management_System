@@ -4,4 +4,5 @@ void reg();
 //void Trans();
 //void mod();
 //void close();
+void list();
 void delay(int j);
