@@ -45,11 +45,14 @@ void menu(){
     printf("#################################################################\n\n");
     printf("\nselect your choice: ");
     scanf("%d",&choice);
+
+
+
     if (choice==1){reg();}
     //else if (choice==2){info();}
     //else if (choice==3){Trans();}
     //else if (choice==4){mod();}
-    //else if (choice==5){close();}w"
+    //else if (choice==5){close();}
     else if (choice==6){list();}
     else if (choice==0){system("exit");}
     else {printf("\nInvalid!!\n"); delay(50000);system("exit");}
@@ -59,28 +62,51 @@ void menu(){
 
 //list the info of all existing clients
 void list(){
-    char buf[100];
-    FILE *pfile = fopen("database.txt","r");
-    while (fscanf(pfile, "%s %*s %*s %*s", buf) == 1)
-        printf("%s\n", buf);
-    //if (pfile==NULL){fprintf(pfile,"%s %s\t\t%s\t\t%s\t\t%s\t\t%s\n","Account","Number","Name","Date of Birth","Citizenship","Address");}
+    //char c;
+
     
+    char buf[1000000];
+    FILE *pfile = fopen("database.txt","r");
+    noFile(pfile);
+
+    int size = 0;
+    char ch = 0;
+    char* content = 0;
+
+
+    
+
+    while ((ch =fgetc(pfile))!= EOF){
+        size++;
+        content = Realloc(content, size);
+        content[size - 1] = ch;
+    }
+    printf("%s",content);
     fclose(pfile);
 
 }
 
-//This first function lets us register a new client
+
+
+
+//error handling an error in the file  
+int noFile(FILE *pfile) {
+    if (pfile==NULL){    
+        printf("error opening the file");
+        exit(1);
+    }
+    }
+
+
+
+//This function lets us register a new client
 void reg(){
     struct client cl;
     struct client ch;
     FILE *pfile = fopen("database.txt","r");
 
 
-     //error handling an error in the file   
-    if (!pfile){    
-        printf("error opening the file");
-        exit(1);
-    }
+    noFile(pfile);
 
 
     //fprintf(pfile,"%s %s\t%s\t%s\t%s\t%s","Account","Number","Name","Date of Birth","Citizenship","Address");
