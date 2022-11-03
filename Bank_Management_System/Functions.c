@@ -19,7 +19,7 @@ struct date
 struct client
 {
     int AccountNumber;
-    char Name[10];
+    char FirstName[10],FamilyName[10];
     struct date DOB;
     char Citizenship[10];
     char Address;
@@ -83,7 +83,7 @@ void list(){
     fclose(pfile);
 
     while (ne!=0){    
-        printf("Press 0 to return to the main menu: ");
+        printf("\nPress 0 to return to the main menu: ");
         scanf("%d", &ne);
     }
     if (ne==0){menu();}
@@ -106,30 +106,58 @@ int noFile(FILE *pfile) {
 //This function lets us register a new client
 void reg(){
     struct client cl;
-    struct client ch;
-    FILE *pfile = fopen("database.txt","r");
+    struct client old;
+   
 
 
-    noFile(pfile);
-
-
-    //fprintf(pfile,"%s %s\t%s\t%s\t%s\t%s","Account","Number","Name","Date of Birth","Citizenship","Address");
+    //fprintf(pfile,"%s %s\t%s\t%s\t%s\t%s","AccountNumber","Name","Date of Birth","Citizenship","Address");
     
     system("clear");
     printf("\t\t  Bank Management System\n");
     printf("############## Welcome To The Account Creation Tool #############\n");
     printf("#################################################################\n");
     printf("#################################################################\n\n");
-    delay(5000);
-    
-    printf("\nEnter the account number for client: ");
-    scanf("%d",&cl.AccountNumber);
 
-  
+    ;
+
+
+
+    int num; 
+    while(1){
+        printf("\nEnter the account number for client(9 digits): ");
+        scanf("%d",&cl.AccountNumber);
+        if (cl.AccountNumber <1000000000){break;}
+    }
+    FILE *pfile = fopen("database.txt","r");
+
+
+    noFile(pfile);
+
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship)!= EOF)
+        {
+            if (cl.AccountNumber==old.AccountNumber)
+            {printf("account number already in use !");
+            delay(50000);
+            reg();}
+        }
+
+
+
+
+    fprintf(pfile,"%d\t\t",num);
     
 
     printf("\nEnter the name of the client: ");
-    scanf("%c",cl.Name);
+    char ch[50];
+    scanf("%s",ch);
+    char *ptr = ch;
+    while (*ptr){
+        if (*ptr == ' '){*ptr == '_';}
+        ptr++;
+    }
+    
+    fprintf(pfile,"%s\t\t",ch);
+
 
     
 

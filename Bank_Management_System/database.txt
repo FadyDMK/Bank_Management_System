@@ -1,3 +1,2 @@
-Account_Number      Name        Date_of_Birth       Citizenship	
-151551651       dew_marrasd        14/06/1998       Hungarian
-168161665       ernihfe_hjfhj      12/01/1988       Tunisian
+151551651 dew haha 14/06/1998 Hungarian
+168161665 ernihfe baba 12/01/1988 Tunisian
