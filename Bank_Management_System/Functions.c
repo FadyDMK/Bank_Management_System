@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+ #define _GNU_SOURCE
 
 
 //structure for desired date format
@@ -9,6 +10,8 @@ struct date
 {
     int day,month,year;
 };
+
+
 
 
 
@@ -62,34 +65,47 @@ void menu(){
 
 //list the info of all existing clients
 void list(){
-    //char c;
+    char c;
 
-    
-    char buf[1000000];
+
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
 
-    int size = 0;
-    char ch = 0;
-    char* content = 0;
 
+    /*while ((c =fgetc(pfile))!= EOF){
+        printf("%s",&c);
+        c =fgetc(pfile);
+    }*/
+    int i;
+    char buf[100];
+    /*while (fscanf(pfile, "%s", buf) == 1)
+            printf("%s",buf);*/
+    
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+    while ((read))
+
+    while (((read = getline(&line, &len, pfile) ) != -1)) {
+        printf("%s", line);
+        fwrite(line, read, 1, stdout);
+    }
 
     
-
-    while ((ch =fgetc(pfile))!= EOF){
-        size++;
-        content = Realloc(content, size);
-        content[size - 1] = ch;
-    }
-    printf("%s",content);
+    free(line);
     fclose(pfile);
+    system("exit");
+    exit(EXIT_SUCCESS);
+ 
+    
+    printf("u done ?");
 
 }
 
 
 
 
-//error handling an error in the file  
+//error handling in the file  
 int noFile(FILE *pfile) {
     if (pfile==NULL){    
         printf("error opening the file");
