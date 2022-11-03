@@ -65,40 +65,28 @@ void menu(){
 
 //list the info of all existing clients
 void list(){
-    char c;
-
+    system("clear");
 
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
-
-
-    /*while ((c =fgetc(pfile))!= EOF){
-        printf("%s",&c);
-        c =fgetc(pfile);
-    }*/
-    int i;
-    char buf[100];
-    /*while (fscanf(pfile, "%s", buf) == 1)
-            printf("%s",buf);*/
-    
     char *line = NULL;
     size_t len = 0;
-    ssize_t read;
-    while ((read))
+    size_t read;
+    int ne=1;
 
-    while (((read = getline(&line, &len, pfile) ) != -1)) {
-        printf("%s", line);
-        fwrite(line, read, 1, stdout);
+    //print the contents of the file line by line (-1 marks the end of the file )
+    while (((read = getline(&line, &len, pfile)) != -1 ) ) {
+        printf("%s",line);
     }
 
-    
     free(line);
     fclose(pfile);
-    system("exit");
-    exit(EXIT_SUCCESS);
- 
-    
-    printf("u done ?");
+
+    while (ne!=0){    
+        printf("Press 0 to return to the main menu: ");
+        scanf("%d", &ne);
+    }
+    if (ne==0){menu();}
 
 }
 
