@@ -25,7 +25,7 @@ struct client
     char Address;
     int balance;
     
-};
+}old;
 
 //this function delays the output on the terminal by using two loops
 void delay(int j){
@@ -106,7 +106,7 @@ int noFile(FILE *pfile) {
 //This function lets us register a new client
 void reg(){
     struct client cl;
-    struct client old;
+
    
 
 
@@ -118,49 +118,51 @@ void reg(){
     printf("#################################################################\n");
     printf("#################################################################\n\n");
 
-    ;
-
-
-
-    int num; 
     while(1){
         printf("\nEnter the account number for client(9 digits): ");
         scanf("%d",&cl.AccountNumber);
-        if (cl.AccountNumber <1000000000){break;}
+        if (cl.AccountNumber <1000000000){printf("\nEnter the account number for client(9 digits): ");break;}
     }
     FILE *pfile = fopen("database.txt","r");
 
 
     noFile(pfile);
 
+
+    //checking if the account number is already in use
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship)!= EOF)
         {
             if (cl.AccountNumber==old.AccountNumber)
             {printf("account number already in use !");
-            delay(50000);
+            delay(5000);
+            system("clear");
             reg();}
         }
 
-
-
-
-    fprintf(pfile,"%d\t\t",num);
-    
-
-    printf("\nEnter the name of the client: ");
-    char ch[50];
-    scanf("%s",ch);
-    char *ptr = ch;
-    while (*ptr){
-        if (*ptr == ' '){*ptr == '_';}
-        ptr++;
-    }
-    
-    fprintf(pfile,"%s\t\t",ch);
-
-
-    
-
     fclose(pfile);
+
+
+
+   
+    pfile=fopen("database.txt","a");
+
+
+    fprintf(pfile,"\n%d ",cl.AccountNumber);
+    //inputting the name 
+    printf("\nEnter the first name of the client: ");
+    scanf("%s",cl.FirstName);
+    fprintf(pfile,"%s ",cl.FirstName);
+    printf("\nEnter the family name of the client: ");
+    scanf("%s",cl.FamilyName);
+    fprintf(pfile,"%s ",cl.FamilyName);
+    printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
+    scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
+    fprintf(pfile,"%d/%d/%d ",cl.DOB.day,cl.DOB.month,cl.DOB.year);
+    printf("\nEnter the citizenship :");
+    scanf("%s",cl.Citizenship);
+    fprintf(pfile,"%s ",cl.Citizenship);
+    fclose(pfile);
+
+    printf("\nAccount has been created successfully!/n");
 }
 
