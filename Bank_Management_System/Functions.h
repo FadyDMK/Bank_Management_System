@@ -2,7 +2,7 @@
 
 void menu();
 void reg();
-//void info();
+void info();
 //void Trans();
 //void mod();
 //void close();

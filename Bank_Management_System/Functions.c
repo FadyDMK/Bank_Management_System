@@ -25,7 +25,7 @@ struct client
     char Address;
     int balance;
     
-}old;
+}old,check;
 
 //this function delays the output on the terminal by using two loops
 void delay(int j){
@@ -52,7 +52,7 @@ void menu(){
 
 
     if (choice==1){reg();}
-    //else if (choice==2){info();}
+    else if (choice==2){info();}
     //else if (choice==3){Trans();}
     //else if (choice==4){mod();}
     //else if (choice==5){close();}
@@ -60,6 +60,29 @@ void menu(){
     else if (choice==0){system("exit");}
     else {printf("\nInvalid!!\n"); delay(50000);system("exit");}
     
+}
+
+
+
+//this function will show the info about a specific client
+void info(){
+    system("clear");
+    printf("################ Client Info #######################\n");
+    printf("#################################################################\n");
+    printf("type the number of account of the client:");
+    FILE *pfile = fopen("database.txt","r");
+    scanf("%d",&check.AccountNumber);
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship)!= EOF)
+    {
+        if(old.AccountNumber==check.AccountNumber){
+            printf("\nName of the client: %s %s",old.FirstName,old.FamilyName);
+            printf("\nDate of birth of the client: %d/%d/%d",old.DOB.day,old.DOB.month,old.DOB.year);
+            printf("\nCitizenship of the client: %s",old.Citizenship);
+
+        }
+
+    }
+    fclose(pfile);
 }
 
 
