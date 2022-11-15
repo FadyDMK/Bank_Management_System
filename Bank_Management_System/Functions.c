@@ -2,7 +2,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
- #define _GNU_SOURCE
+#define _GNU_SOURCE
 
 
 //structure for desired date format
@@ -26,6 +26,20 @@ struct client
     int balance;
     
 }old,check;
+
+
+int count(int n){
+    int count=0 ;
+    do{
+        n /=10;
+        ++count;
+    }while(n!=0);
+    return count;
+}
+
+
+
+
 
 //this function delays the output on the terminal by using two loops
 void delay(int j){
@@ -67,49 +81,53 @@ void menu(){
 //this function will show the info about a specific client
 void info(){
     system("clear");
-    printf("################ Client Info #######################\n");
+    printf("####################### Client Info #############################\n");
     printf("#################################################################\n");
-    printf("type the number of account of the client:");
+    printf("type the number of account of the client: ");
     FILE *pfile = fopen("database.txt","r");
-    scanf("%d",&check.AccountNumber);
-    while(fscanf(pfile,"%d %s %s %d/%d/%d %s",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship)!= EOF)
+    scanf("%d ",&check.AccountNumber);
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber==check.AccountNumber){
-            printf("\nName of the client: %s %s",old.FirstName,old.FamilyName);
+            printf("\nName of the client: %s %s ",old.FirstName,old.FamilyName);
             printf("\nDate of birth of the client: %d/%d/%d",old.DOB.day,old.DOB.month,old.DOB.year);
             printf("\nCitizenship of the client: %s",old.Citizenship);
+            printf("\nCurrent balance in account: %d",old.balance);
 
         }
 
     }
     fclose(pfile);
+
+    back();
+
+}
+
+
+//function to go back to the main menu
+void back(){
+    int ne;
+    printf("\nPress 0 to return to the main menu: ");
+    scanf("%d", &ne);
+    if (ne == 0){menu();}
+    else {back();}
 }
 
 
 //list the info of all existing clients
 void list(){
     system("clear");
-
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
-    char *line = NULL;
-    size_t len = 0;
-    size_t read;
-    int ne=1;
-
-    //print the contents of the file line by line (-1 marks the end of the file )
-    while (((read = getline(&line, &len, pfile)) != -1 ) ) {
-        printf("%s",line);
+    printf("\n\nAccount Number\t|\tFirst Name\t|\tFamily Name\t|\tDate of Birth\t|\tCitizenship\t|\tBalance\n");
+    printf("\n");
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
+    {
+        printf("%-14d\t|\t%-11s\t|\t%-11s\t|\t%2d/%2d/%2d\t|\t%-11s\t|\t%-9d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
     }
-
-    free(line);
     fclose(pfile);
 
-    while (ne!=0){    
-        printf("\nPress 0 to return to the main menu: ");
-        scanf("%d", &ne);
-    }
-    if (ne==0){menu();}
+    back();
 
 }
 
@@ -130,9 +148,6 @@ int noFile(FILE *pfile) {
 void reg(){
     struct client cl;
 
-   
-
-
     //fprintf(pfile,"%s %s\t%s\t%s\t%s\t%s","AccountNumber","Name","Date of Birth","Citizenship","Address");
     
     system("clear");
@@ -144,7 +159,8 @@ void reg(){
     while(1){
         printf("\nEnter the account number for client(9 digits): ");
         scanf("%d",&cl.AccountNumber);
-        if (cl.AccountNumber <1000000000){printf("\nEnter the account number for client(9 digits): ");break;}
+        if (count(cl.AccountNumber)!=9){printf("\nInvalid number try again!");}
+        else {break;}
     }
     FILE *pfile = fopen("database.txt","r");
 
@@ -162,14 +178,11 @@ void reg(){
             reg();}
         }
 
+
+
     fclose(pfile);
-
-
-
-   
+    noFile(pfile);
     pfile=fopen("database.txt","a");
-
-
     fprintf(pfile,"\n%d ",cl.AccountNumber);
     //inputting the name 
     printf("\nEnter the first name of the client: ");
@@ -184,8 +197,13 @@ void reg(){
     printf("\nEnter the citizenship :");
     scanf("%s",cl.Citizenship);
     fprintf(pfile,"%s ",cl.Citizenship);
+    printf("Enter the amount to be deposited: ");
+    scanf("%d",&cl.balance);
+    fprintf(pfile,"%d \n",cl.balance);
     fclose(pfile);
 
-    printf("\nAccount has been created successfully!/n");
+    printf("\nAccount has been created successfully!\n");
+
+    back();
 }
 

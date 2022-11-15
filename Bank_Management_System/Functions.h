@@ -9,3 +9,5 @@ void info();
 void list();
 int noFile(FILE *pfile);
 void delay(int j);
+void back();
+int count(int n);
