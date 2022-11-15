@@ -12,9 +12,6 @@ struct date
 };
 
 
-
-
-
 //this represents the different data of a client
 struct client
 {
@@ -25,7 +22,7 @@ struct client
     char Address;
     int balance;
     
-}old,check;
+}old,check,rec,old2;
 
 
 int count(int n){
@@ -57,7 +54,7 @@ void menu(){
     printf("\t\t  Bank Management System\n");
     printf("################ Welcome To The Main Menu #######################\n");
     printf("#################################################################\n");
-    printf("\n\t1)New Client Registration\n\t2)Show Info of An existing Account\n\t3)Make A Transaction\n\t4)Change Details For An Existing Account\n\t5)Close an Account \n\t6)Show All The Existing Clients And Their data\n\t0)Exit");
+    printf("\n\t1)New Client Registration\n\t2)Show Info of An existing Account\n\t3)Make A Transaction, Deposit or Withdrawal \n\t4)Change Details For An Existing Account\n\t5)Close an Account \n\t6)Show All The Existing Clients And Their data\n\t0)Exit");
     printf("\n#################################################################\n");
     printf("#################################################################\n\n");
     printf("\nselect your choice: ");
@@ -67,7 +64,7 @@ void menu(){
 
     if (choice==1){reg();}
     else if (choice==2){info();}
-    //else if (choice==3){Trans();}
+    else if (choice==3){Trans();}
     //else if (choice==4){mod();}
     //else if (choice==5){close();}
     else if (choice==6){list();}
@@ -116,6 +113,7 @@ void back(){
 
 //list the info of all existing clients
 void list(){
+    int test=0;
     system("clear");
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
@@ -124,9 +122,12 @@ void list(){
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         printf("%-14d\t|\t%-11s\t|\t%-11s\t|\t%2d/%2d/%2d\t|\t%-11s\t|\t%-9d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+        test++;
     }
     fclose(pfile);
-
+    if (test==0) {   
+        system("clear");
+        printf("\nNO RECORDS!!\n");}
     back();
 
 }
@@ -169,7 +170,7 @@ void reg(){
 
 
     //checking if the account number is already in use
-    while(fscanf(pfile,"%d %s %s %d/%d/%d %s",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship)!= EOF)
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
         {
             if (cl.AccountNumber==old.AccountNumber)
             {printf("account number already in use !");
@@ -201,9 +202,87 @@ void reg(){
     scanf("%d",&cl.balance);
     fprintf(pfile,"%d \n",cl.balance);
     fclose(pfile);
-
     printf("\nAccount has been created successfully!\n");
 
     back();
 }
 
+//this function allows us to change the balance of specific accounts
+//through withdrawals, transfers or deposits
+void Trans(){
+    int c,dep;
+
+    system("clear");
+    printf("################## Transfer/Deposit/Withdraw ####################\n");
+    printf("#################################################################\n");
+    printf("type the number of account of the client: ");
+    FILE *pfile = fopen("database.txt","r");
+    noFile(pfile);
+    FILE *new = fopen("newdatabase.txt","w");
+    noFile(new);
+    scanf("%d ",&check.AccountNumber);
+
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
+    {
+        if(old.AccountNumber==check.AccountNumber){
+            printf("\n1)Transfer to another account\n2)Deposit in your account\n3)Withdraw from your account\n0)Exit\n\nYour Choice:\n");
+            scanf("%d",&c);
+            
+            if(c==0){menu();}
+            
+            
+            if(c==2){printf("\nhow much do you want to deposit?: ");
+            scanf("%d",&dep);
+            old.balance+=dep;
+            fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+            printf("\nDeposit successful!"); }
+            
+            
+            
+            if(c==3){printf("\nhow much do you want to withdraw?: ");
+            scanf("%d",&dep);
+            old.balance-=dep;
+            fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+            printf("\nWithdrawal successful!"); }
+            
+            
+            
+            if (c==1){
+                printf("type the number of account of the receiver: ");
+                scanf("%d ",&rec.AccountNumber);
+                printf("\nhow much do you want to withdraw?: ");
+                scanf("%d",&dep);
+                old.balance-=dep;
+                fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); 
+                transfer(pfile,new,dep,rec.AccountNumber);}
+        }
+        else {fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); 
+}
+
+    }
+    
+
+    fclose(pfile);
+    fclose(new);
+    remove("database.txt");
+    rename("newdatabase.txt","database.txt");
+
+    back();
+
+}
+
+
+
+//make a transfer to a another account IN THE SAME BANK(it modifies the balance of the receipient only)
+// i only made it to make the code more understandable
+void transfer(FILE *old, FILE *new,int a,int AccNum){
+    while(fscanf(old,"%d %s %s %d/%d/%d %s %d",&old2.AccountNumber,old2.FirstName,old2.FamilyName,&old2.DOB.day,&old2.DOB.month,&old2.DOB.year,old2.Citizenship,&old2.balance)!= EOF)
+    {
+        if(old2.AccountNumber==AccNum){
+            old2.balance+=a;
+            fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old2.AccountNumber,old2.FirstName,old2.FamilyName,old2.DOB.day,old2.DOB.month,old2.DOB.year,old2.Citizenship,old2.balance);
+        }
+
+    }
+
+}
