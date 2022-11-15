@@ -66,7 +66,7 @@ void menu(){
     else if (choice==2){info();}
     else if (choice==3){Trans();}
     //else if (choice==4){mod();}
-    //else if (choice==5){close();}
+    else if (choice==5){close();}
     else if (choice==6){list();}
     else if (choice==7){dep();}
     else if (choice==0){system("exit");}
@@ -335,8 +335,34 @@ void Trans(){
     rename("newdatabase.txt","database.txt");
 
     back();
+lient:
 
 
 
+}
+
+
+void close(){
+    system("clear");
+    printf("################## Deposit/Withdraw ####################\n");
+    printf("#################################################################\n");
+    printf("type the number of account of the client that will be deleted: ");
+    scanf("%d ",&check.AccountNumber);
+    FILE *pfile = fopen("database.txt","r");
+    noFile(pfile);
+    FILE *new = fopen("newdatabase.txt","w");
+    noFile(new);
+
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
+    {
+        if(old.AccountNumber!=check.AccountNumber){
+            fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+        }}
+    printf("\nAccount successfully deleted");
+    fclose(pfile);
+    fclose(new);
+    remove("database.txt");
+    rename("newdatabase.txt","database.txt");
+    back();
 
 }

@@ -6,7 +6,7 @@ void info();
 void Trans();
 void dep();
 //void mod();
-//void close();
+void close();
 void list();
 int noFile(FILE *pfile);
 void delay(int j);
