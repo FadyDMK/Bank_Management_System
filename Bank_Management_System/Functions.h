@@ -5,7 +5,6 @@ void reg();
 void info();
 void Trans();
 void dep();
-//void mod();
 void close();
 void list();
 int noFile(FILE *pfile);

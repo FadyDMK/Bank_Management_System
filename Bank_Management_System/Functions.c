@@ -54,7 +54,7 @@ void menu(){
     printf("\t\t  Bank Management System\n");
     printf("################ Welcome To The Main Menu #######################\n");
     printf("#################################################################\n");
-    printf("\n\t1)New Client Registration\n\t2)Show Info of An existing Account\n\t3)Make A Money Transfer \n\t4)Change Details For An Existing Account\n\t5)Close an Account \n\t6)Show All The Existing Clients And Their data\n\t7)Make a Deposit or Withdrawal\n\t0)Exit");
+    printf("\n\t1)New Client Registration\n\t2)Show Info of An existing Account\n\t3)Make A Money Transfer \n\t4)Close an Account \n\t5)Show All The Existing Clients And Their data\n\t6)Make a Deposit or Withdrawal\n\t0)Exit");
     printf("\n#################################################################\n");
     printf("#################################################################\n\n");
     printf("\nselect your choice: ");
@@ -65,14 +65,16 @@ void menu(){
     if (choice==1){reg();}
     else if (choice==2){info();}
     else if (choice==3){Trans();}
-    //else if (choice==4){mod();}
-    else if (choice==5){close();}
-    else if (choice==6){list();}
-    else if (choice==7){dep();}
+    else if (choice==4){close();}
+    else if (choice==5){list();}
+    else if (choice==6){dep();}
     else if (choice==0){system("exit");}
     else {printf("\nInvalid!!\n"); delay(50000);menu();}
     
 }
+
+
+
 
 
 
