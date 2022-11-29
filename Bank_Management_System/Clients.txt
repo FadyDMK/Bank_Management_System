@@ -1,1 +1,0 @@
-to find a name we should check the length then the individual characters
