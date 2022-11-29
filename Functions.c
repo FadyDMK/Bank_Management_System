@@ -51,6 +51,7 @@ void delay(int j){
 void menu(){
     int choice;
     system("clear");
+
     printf("\t\t  Bank Management System\n");
     printf("################ Welcome To The Main Menu #######################\n");
     printf("#################################################################\n");
@@ -86,6 +87,11 @@ void info(){
     printf("type the number of account of the client: ");
     FILE *pfile = fopen("database.txt","r");
     scanf("%d ",&check.AccountNumber);
+
+    //clears the input buffer
+    while ((getchar()) != '\n');
+    
+    //check wether the account number exists in the file or not
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber==check.AccountNumber){
@@ -93,10 +99,13 @@ void info(){
             printf("\nDate of birth of the client: %d/%d/%d",old.DOB.day,old.DOB.month,old.DOB.year);
             printf("\nCitizenship of the client: %s",old.Citizenship);
             printf("\nCurrent balance in account: %d",old.balance);
+ 
 
         }
 
     }
+ 
+    printf("\n");
     fclose(pfile);
 
     back();
@@ -109,6 +118,7 @@ void back(){
     int ne;
     printf("\nPress 0 to return to the main menu: ");
     scanf("%d", &ne);
+    while ((getchar()) != '\n');
     if (ne == 0){menu();}
     else {back();}
 }
@@ -176,7 +186,7 @@ void reg(){
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
         {
             if (cl.AccountNumber==old.AccountNumber)
-            {printf("account number already in use !");
+            {printf("account number already in use !!!!\n Try Again \n");
             delay(5000);
             system("clear");
             reg();}
@@ -202,7 +212,7 @@ void reg(){
     printf("\nEnter the citizenship :");
     scanf("%s",cl.Citizenship);
     fprintf(pfile,"%s ",cl.Citizenship);
-    printf("Enter the amount to be deposited: ");
+    printf("\nEnter the amount to be deposited: ");
     scanf("%d",&cl.balance);
     fprintf(pfile,"%d \n",cl.balance);
     fclose(pfile);
