@@ -106,6 +106,7 @@ void info(){
     }
  
     printf("\n");
+    fflush(pfile);
     fclose(pfile);
 
     back();
@@ -193,7 +194,7 @@ void reg(){
         }
 
 
-
+    fflush(pfile);
     fclose(pfile);
     
     pfile=fopen("database.txt","a");
@@ -215,6 +216,7 @@ void reg(){
     printf("\nEnter the amount to be deposited: ");
     scanf("%d",&cl.balance);
     fprintf(pfile,"%d \n",cl.balance);
+    fflush(pfile);
     fclose(pfile);
     printf("\nAccount has been created successfully!\n");
 
@@ -289,7 +291,8 @@ void dep(){
 
     }
     
-
+    fflush(pfile);
+    fflush(new);
     fclose(pfile);
     fclose(new);
     remove("database.txt");
@@ -342,6 +345,8 @@ void Trans(){
     }
     printf("\n Money successfully transfered!");
 
+    fflush(pfile);
+    fflush(new);
     fclose(pfile);
     fclose(new);
     remove("database.txt");
@@ -369,6 +374,8 @@ void close(){
             fprintf(new,"%d %s %s %d/%d/%d %s %d",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
         }}
     printf("\nAccount successfully deleted");
+    fflush(pfile);
+    fflush(new);
     fclose(pfile);
     fclose(new);
     remove("database.txt");
