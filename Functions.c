@@ -70,7 +70,7 @@ void menu(){
     else if (choice==5){list();}
     else if (choice==6){dep();}
     else if (choice==0){system("exit");}
-    else {printf("\nInvalid!!\n"); delay(50000);menu();}
+    else {printf("\nInvalid!!\n"); fflush( stdout ); delay(50000);menu();}
     
 }
 
@@ -84,21 +84,25 @@ void info(){
     system("clear");
     printf("####################### Client Info #############################\n");
     printf("#################################################################\n");
+    setbuf(stdout, NULL);  
     printf("type the number of account of the client: ");
+    fflush( stdout );
     FILE *pfile = fopen("database.txt","r");
     scanf("%d ",&check.AccountNumber);
-
-    //clears the input buffer
-    while ((getchar()) != '\n');
     
     //check wether the account number exists in the file or not
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber==check.AccountNumber){
+            fflush( stdout );
             printf("\nName of the client: %s %s ",old.FirstName,old.FamilyName);
+            fflush( stdout );
             printf("\nDate of birth of the client: %d/%d/%d",old.DOB.day,old.DOB.month,old.DOB.year);
+            fflush( stdout );
             printf("\nCitizenship of the client: %s",old.Citizenship);
+            fflush( stdout );
             printf("\nCurrent balance in account: %d",old.balance);
+            fflush( stdout );
  
 
         }
@@ -106,6 +110,7 @@ void info(){
     }
  
     printf("\n");
+    fflush( stdout );
     fflush(pfile);
     fclose(pfile);
 
@@ -118,6 +123,7 @@ void info(){
 void back(){
     int ne;
     printf("\nPress 0 to return to the main menu: ");
+    fflush( stdout );
     scanf("%d", &ne);
     while ((getchar()) != '\n');
     if (ne == 0){menu();}
@@ -362,6 +368,7 @@ void close(){
     printf("################## Deposit/Withdraw ####################\n");
     printf("#################################################################\n");
     printf("type the number of account of the client that will be deleted: ");
+    fflush( stdout );
     scanf("%d ",&check.AccountNumber);
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
@@ -371,9 +378,10 @@ void close(){
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber!=check.AccountNumber){
-            fprintf(new,"%d %s %s %d/%d/%d %s %d",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+            fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
         }}
     printf("\nAccount successfully deleted");
+    fflush( stdout );
     fflush(pfile);
     fflush(new);
     fclose(pfile);
@@ -381,5 +389,6 @@ void close(){
     remove("database.txt");
     rename("newdatabase.txt","database.txt");
     back();
+ 
 
 }
