@@ -233,10 +233,6 @@ void dep(){
     printf("################## Deposit/Withdraw ####################\n");
     printf("#################################################################\n");
     printf("\ntype the number of account of the client: \n");
-    FILE *pfile = fopen("database.txt","r");
-    //noFile(pfile);
-    FILE *new = fopen("newdatabase.txt","a");
-    //noFile(new);
     scanf("%d \n",&check.AccountNumber);
     printf("\n1)Deposit in your account\n");
     printf("2)Withdraw from your account\n");
@@ -246,15 +242,22 @@ void dep(){
 
     do{  
         scanf("%d",&c);
+            
     }while ((c!=0) && (c!=1) && (c!=2));
 
+    if(c==0){menu();}
+
+     FILE *pfile = fopen("database.txt","r");
+    //noFile(pfile);
+    FILE *new = fopen("newdatabase.txt","a");
+    //noFile(new);
 
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber==check.AccountNumber){
             
             
-            if(c==0){menu();}
+            
             
             
             if(c==1){
