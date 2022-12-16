@@ -209,15 +209,22 @@ void reg(){
     printf("\nEnter the family name of the client: ");
     scanf("%s",cl.FamilyName);
     fprintf(pfile,"%s ",cl.FamilyName);
-    printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
-    scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
+    do{
+        printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
+        scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
+    }while ((cl.DOB.day>31)&&(cl.DOB.month>12)&&(cl.DOB.year<1900)&&(cl.DOB.year>2023));
+
+
     fprintf(pfile,"%d/%d/%d ",cl.DOB.day,cl.DOB.month,cl.DOB.year);
     printf("\nEnter the citizenship : ");
     scanf("%s",cl.Citizenship);
     fprintf(pfile,"%s ",cl.Citizenship);
-    printf("\nEnter the amount to be deposited: ");
-    scanf("%d",&cl.balance);
-    fprintf(pfile,"%d \n",cl.balance);
+    do{
+        printf("\nEnter the amount to be deposited in this account: ");
+        scanf("%d",&cl.balance);
+    }while (cl.balance<0);
+
+    fprintf(pfile,"%d",cl.balance);
     fflush(pfile);
     fclose(pfile);
     printf("\nAccount has been created successfully!\n");
