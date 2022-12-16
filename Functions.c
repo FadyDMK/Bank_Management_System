@@ -251,13 +251,13 @@ void dep(){
     //noFile(pfile);
     FILE *new = fopen("newdatabase.txt","a");
     //noFile(new);
-
+    
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber==check.AccountNumber){
             
             
-            
+            printf("Available balance in this account: %d ",old.balance);
             
             
             if(c==1){
@@ -309,7 +309,6 @@ void dep(){
     fclose(new);
     remove("database.txt");
     rename("newdatabase.txt","database.txt");
-
     back();
 
 }
@@ -400,7 +399,7 @@ void close(){
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber!=check.AccountNumber){
-            fprintf(new,"\n%d %s %s %d/%d/%d %s %d",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+            fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
         }}
     
    
