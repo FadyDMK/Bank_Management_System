@@ -212,7 +212,7 @@ void reg(){
     printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
     scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
     fprintf(pfile,"%d/%d/%d ",cl.DOB.day,cl.DOB.month,cl.DOB.year);
-    printf("\nEnter the citizenship :");
+    printf("\nEnter the citizenship : ");
     scanf("%s",cl.Citizenship);
     fprintf(pfile,"%s ",cl.Citizenship);
     printf("\nEnter the amount to be deposited: ");
@@ -239,7 +239,7 @@ void dep(){
     printf("\n0)Exit\n");
     printf("\nYour Choice: \n");
 
-
+    fflush(stdout);
     do{  
         scanf("%d",&c);
             
@@ -322,15 +322,17 @@ void dep(){
 void Trans(){
     int dep;
     system("clear");
-    printf("################## Deposit/Withdraw ####################\n");
+    printf("################## Transfer Menu ####################\n");
     printf("#################################################################\n");
     printf("type the number of account of the client: ");
-    scanf("%d ",&check.AccountNumber);
     fflush(stdout);
+    scanf("%d ",&check.AccountNumber);
+ 
   
     printf("\ntype the number of account of the receiver: ");
-    scanf("%d ",&rec.AccountNumber);
     fflush(stdout);
+    scanf("%d ",&rec.AccountNumber);
+
 
 
     do {
@@ -351,11 +353,10 @@ void Trans(){
                 old.balance-=dep;
                 cond++;
                 fprintf(new,"%d %s %s %d/%d/%d %s %d",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
-
     }}
 
     //if the account has insufficient funds to make the transfer it won't go through
-    if (!cond) {printf("this account has insuffficient funds to make this transfer");fflush(stdout);back();}
+    if (!cond) {printf("this account has insuffficient funds to make this transfer \nor this account does not exit");fflush(stdout);fclose(pfile);fclose(new);back();}
 
     //Reset the pointer to the start of the file
     rewind(pfile);
@@ -368,8 +369,6 @@ void Trans(){
         }
         if(old.AccountNumber!=rec.AccountNumber && old.AccountNumber!=check.AccountNumber) {fprintf(new,"\n%d %s %s %d/%d/%d %s %d",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); }
     }
-   
-
 
     
     fflush(pfile);
