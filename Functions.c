@@ -123,7 +123,7 @@ void back(){
 
     fprintf(stderr,"\nPress 0 to return to the main menu: ");
     scanf("%d", &ne);
-    getchar();
+    getc(stdin);
     if (ne == 0){menu();}
     else {back();}
 }
