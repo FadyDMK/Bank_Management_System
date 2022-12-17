@@ -209,10 +209,16 @@ void reg(){
     printf("\nEnter the family name of the client: ");
     scanf("%s",cl.FamilyName);
     fprintf(pfile,"%s ",cl.FamilyName);
-    do{
+
+    
+    while(1){
         printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
+        
         scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
-    }while ((cl.DOB.day>31)&&(cl.DOB.month>12)&&(cl.DOB.year<1900)&&(cl.DOB.year>2023));
+        
+        if ((cl.DOB.day>31)&&(cl.DOB.month>12)&&(cl.DOB.year<1900)&&(cl.DOB.year>2023)){break;}
+        else {printf("The date's format is wrong please try again");}
+    }
 
 
     fprintf(pfile,"%d/%d/%d ",cl.DOB.day,cl.DOB.month,cl.DOB.year);
