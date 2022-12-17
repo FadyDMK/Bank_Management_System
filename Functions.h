@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-void menu();
+int menu();
 void reg();
 void info();
 void Trans();

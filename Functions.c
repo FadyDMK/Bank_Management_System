@@ -5,6 +5,7 @@
 #define _GNU_SOURCE
 
 
+
 //structure for desired date format
 struct date
 {
@@ -48,7 +49,7 @@ void delay(int j){
 
 
 //this function displays the operations that the program can perform
-void menu(){
+int menu(){
     int choice=0;
     system("clear");
 
@@ -63,14 +64,42 @@ void menu(){
 
 
 
-    if (choice==1){reg();}
+    /*if (choice==1){reg();}
     else if (choice==2){info();}
     else if (choice==3){Trans();}
     else if (choice==4){close();}
     else if (choice==5){list();}
     else if (choice==6){dep();}
     else if (choice==0){system("exit");}
-    else {printf("\nInvalid!!\n");  delay(50000);menu();}
+    else {printf("\nInvalid!!\n");  delay(50000);menu();}*/
+    switch(choice)
+    {
+        case 1:
+            reg();
+            break;
+        case 2:
+            info();
+            break;
+        case 3:
+            Trans();
+            break;
+        case 4:
+            close();
+            break;
+        case 5:
+            list();
+            break;
+        case 6:
+            dep();
+            break;
+        case 0:
+            exit(0);
+        default:
+            printf("\nInvalid!!\n");
+            menu();
+
+
+    }
     
 }
 
@@ -93,7 +122,7 @@ void info(){
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if(old.AccountNumber==check.AccountNumber){
-            fflush(pfile);
+            
             fclose(pfile);
             
             printf("\nName of the client: %s %s ",old.FirstName,old.FamilyName);
@@ -103,10 +132,10 @@ void info(){
             printf("\nCitizenship of the client: %s",old.Citizenship);
 
             printf("\nCurrent balance in account: %d",old.balance);
-            fflush(stdout);
+            
             break;}
 
-        if (feof(pfile)==1){fflush(pfile);fclose(pfile);printf("\nThis Account Does not Exist");}
+        if (feof(pfile)==1){fclose(pfile);printf("\nThis Account Does not Exist");}
         
 
     }
@@ -157,7 +186,7 @@ void list(){
 int noFile(FILE *pfile) {
     if (pfile==NULL){    
         printf("error opening the file");
-        exit(1);
+        return 1;
     }
     }
 
@@ -246,24 +275,22 @@ void dep(){
     printf("################## Deposit/Withdraw ####################\n");
     printf("#################################################################\n");
     printf("\ntype the number of account of the client: \n");
-    scanf("%d \n",&check.AccountNumber);
-    printf("\n1)Deposit in your account\n");
-    printf("2)Withdraw from your account\n");
+    scanf("%d",&check.AccountNumber);
+    printf("\n1)Deposit in your account");
+    printf("\n2)Withdraw from your account");
     printf("\n0)Exit\n");
-    printf("\nYour Choice: \n");
-
+    printf("\nYour Choice: ");
+    fflush(stdin);
     fflush(stdout);
     do{  
         scanf("%d",&c);
             
     }while ((c!=0) && (c!=1) && (c!=2));
-
     if(c==0){menu();}
-
-     FILE *pfile = fopen("database.txt","r");
-    //noFile(pfile);
+    FILE *pfile = fopen("database.txt","r");
+    noFile(pfile);
     FILE *new = fopen("newdatabase.txt","a");
-    //noFile(new);
+    noFile(new);
     
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
@@ -272,8 +299,8 @@ void dep(){
             
             printf("Available balance in this account: %d ",old.balance);
             
-            
-            if(c==1){
+            switch(c){
+            case 1:
                 do {
                     printf("\nhow much do you want to deposit?: \n");
                     scanf("%d",&depi);
@@ -282,11 +309,11 @@ void dep(){
 
                 old.balance+=depi;
                 fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
-                printf("\nDeposit successful!\n"); back(); }
+                printf("\nDeposit successful!\n"); back(); 
             
             
             
-            if(c==2){
+            case 2:
                 do {
                     printf("\nhow much do you want to withdraw?: \n");
                     scanf("%d",&depi);
@@ -295,12 +322,11 @@ void dep(){
 
                 old.balance-=depi;
                 fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
-                printf("\nWithdrawal successful!");back(); }
-
+                printf("\nWithdrawal successful!");back(); 
             
-            
-        else {printf("\nThis Account does not exist try again\n");dep();}    
-            
+            default:
+                printf("\nInvalid choice!");
+                dep();
             /*if (c==1){
                 printf("type the number of account of the receiver: ");
                 scanf("%d ",&rec.AccountNumber);
@@ -310,9 +336,9 @@ void dep(){
                 fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); 
                 transfer(pfile,new,dep,rec.AccountNumber);
                 printf("\n Money successfully transfered!");}*/
-        }
-        else {fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); 
-}
+        }}
+        if(old.AccountNumber!=check.AccountNumber) {fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); }
+        
 
     }
     
@@ -353,7 +379,7 @@ void Trans(){
             fflush(stdout);
             scanf("%d",&dep);
             fflush(stdout);
-            }while (dep<=0);
+    }while (dep<=0);
 
 
     FILE *pfile = fopen("database.txt","r");
