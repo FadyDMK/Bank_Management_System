@@ -104,10 +104,10 @@ void info(){
 
             printf("\nCurrent balance in account: %d",old.balance);
             fflush(stdout);
-  
+            break;}
 
-        if (feof(pfile)==EOF){fflush(pfile);fclose(pfile);printf("\nThis Account Does not Exist");}
-        }
+        if (feof(pfile)==1){fflush(pfile);fclose(pfile);printf("\nThis Account Does not Exist");}
+        
 
     }
  
@@ -216,7 +216,7 @@ void reg(){
         
         scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
         
-        if ((cl.DOB.day<=31)&&(cl.DOB.month<=12)&&(cl.DOB.year>1900)&&(cl.DOB.year>2023)){break;}
+        if ((cl.DOB.day<=31)&&(cl.DOB.month<=12)&&(cl.DOB.year>1900)&&(cl.DOB.year<2023)){break;}
         else {printf("The date's format is wrong please try again");}
     }
 
