@@ -114,7 +114,7 @@ void info(){
     printf("####################### Client Info #############################\n");
     printf("#################################################################\n");
     printf("type the number of account of the client: ");
-    scanf("%d ",&check.AccountNumber);
+    scanf(" %d",&check.AccountNumber);
 
 
     FILE *pfile = fopen("database.txt","r");
@@ -186,7 +186,7 @@ void list(){
 int noFile(FILE *pfile) {
     if (pfile==NULL){    
         printf("error opening the file");
-        return 1;
+        exit(0);
     }
     }
 
@@ -289,7 +289,7 @@ void dep(){
     if(c==0){menu();}
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
-    FILE *new = fopen("newdatabase.txt","a");
+    FILE *new = fopen("newdatabase.txt","w");
     noFile(new);
     
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
@@ -305,10 +305,9 @@ void dep(){
                     printf("\nhow much do you want to deposit?: \n");
                     scanf("%d",&depi);
 
-                }while (depi==0);
+                }while (depi<=0);
 
                 old.balance+=depi;
-                fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
                 printf("\nDeposit successful!\n"); back(); 
             
             
@@ -318,14 +317,13 @@ void dep(){
                     printf("\nhow much do you want to withdraw?: \n");
                     scanf("%d",&depi);
 
-                }while (depi==0);
+                }while (depi<=0);
 
                 old.balance-=depi;
-                fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
                 printf("\nWithdrawal successful!");back(); 
             
             default:
-                printf("\nInvalid choice!");
+                printf("\nInvalid choice! Try again");
                 dep();
             /*if (c==1){
                 printf("type the number of account of the receiver: ");
@@ -337,11 +335,11 @@ void dep(){
                 transfer(pfile,new,dep,rec.AccountNumber);
                 printf("\n Money successfully transfered!");}*/
         }}
-        if(old.AccountNumber!=check.AccountNumber) {fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance); }
-        
+        fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+
 
     }
-    
+
     fflush(pfile);
     fflush(new);
     fclose(pfile);
@@ -365,19 +363,19 @@ void Trans(){
     printf("#################################################################\n");
     printf("type the number of account of the client: ");
     fflush(stdout);
-    scanf("%d ",&check.AccountNumber);
+    scanf(" %d",&check.AccountNumber);
  
   
     printf("\ntype the number of account of the receiver: ");
     fflush(stdout);
-    scanf("%d ",&rec.AccountNumber);
+    scanf(" %d",&rec.AccountNumber);
 
 
 
     do {
             printf("\nhow much do you want to withdraw? (has to be a positive integer): ");
             fflush(stdout);
-            scanf("%d",&dep);
+            scanf(" %d",&dep);
             fflush(stdout);
     }while (dep<=0);
 
