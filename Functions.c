@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<string.h>
 #define _GNU_SOURCE
+#include <errno.h>
 
 
 
@@ -269,6 +270,10 @@ void reg(){
 //this function allows us to change the balance of specific accounts
 //through withdrawals or deposits
 void dep(){
+
+
+    int errnum;
+
     int c,depi=0;
 
     system("clear");
@@ -289,12 +294,12 @@ void dep(){
     if(c==0){menu();}
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
-    FILE *new = fopen("newdatabase.txt","w");
+    FILE *new = fopen("newdatabase.txt","a");
     noFile(new);
     
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
-        if(old.AccountNumber==check.AccountNumber){
+    if(old.AccountNumber==check.AccountNumber){
             
             
             printf("Available balance in this account: %d ",old.balance);
@@ -335,11 +340,13 @@ void dep(){
                 transfer(pfile,new,dep,rec.AccountNumber);
                 printf("\n Money successfully transfered!");}*/
         }}
-        fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
+    fprintf(new,"%d %s %s %d/%d/%d %s %d\n",old.AccountNumber,old.FirstName,old.FamilyName,old.DOB.day,old.DOB.month,old.DOB.year,old.Citizenship,old.balance);
 
 
     }
 
+    errnum = errno;
+    fprintf(stderr, "Value of errno: %d\n", errno);
     fflush(pfile);
     fflush(new);
     fclose(pfile);
@@ -381,8 +388,10 @@ void Trans(){
 
 
     FILE *pfile = fopen("database.txt","r");
-
+    noFile(pfile);
     FILE *new = fopen("newdatabase.txt","a");
+    noFile(new);
+
     int cond=0;
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
@@ -397,7 +406,7 @@ void Trans(){
 
     //Reset the pointer to the start of the file
     rewind(pfile);
-
+    
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
     {
         if (old.AccountNumber==rec.AccountNumber){
