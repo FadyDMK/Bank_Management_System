@@ -406,7 +406,7 @@ void close(){
     printf("#################################################################\n");
     printf("type the number of account of the client that will be deleted: ");
 
-    scanf("%d ",&check.AccountNumber);
+    scanf(" %d",&check.AccountNumber);
     FILE *pfile = fopen("database.txt","r");
     noFile(pfile);
     FILE *new = fopen("newdatabase.txt","w");
