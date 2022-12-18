@@ -2,10 +2,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#define _GNU_SOURCE
-#include <errno.h>
-
-
 
 //structure for desired date format
 struct date
