@@ -249,10 +249,6 @@ void reg(){
         if ((cl.DOB.day<=31)&&(cl.DOB.month<=12)&&(cl.DOB.year>1900)&&(cl.DOB.year<2023)){break;}
         else {printf("The date's format is wrong please try again");}
     }*/
-    char date_str[11];
-
-
-
     // Check that the date is in the correct form(dd/mm/yyyy)
     while(1){
         printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
@@ -291,7 +287,7 @@ void reg(){
     do{
         printf("\nEnter the amount to be deposited in this account: ");
         scanf("%d",&cl.balance);
-    }while (cl.balance<0);
+    }while (cl.balance<0);// Verify that the money is a positive integer
 
     fprintf(pfile,"%d",cl.balance);
     fflush(pfile);
@@ -315,8 +311,7 @@ void dep(){
     printf("\n2)Withdraw from your account");
     printf("\n0)Exit\n");
     printf("\nYour Choice: ");
-    fflush(stdin);
-    fflush(stdout);
+
     do{  
         scanf("%d",&c);
             
@@ -330,6 +325,7 @@ void dep(){
     noFile(pfile2);
     
     while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF){      
+        // Look for the desired account and change its balance
         if(old.AccountNumber==check.AccountNumber){
             printf("Current balance in this account: %d",old.balance);
             if (c==1){
