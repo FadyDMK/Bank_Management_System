@@ -17,12 +17,13 @@ struct client
     char FirstName[10],FamilyName[10];
     struct date DOB;
     char Citizenship[10];
-    char Address;
     int balance;
     
 }old,check,rec,old2;
 
 
+
+//counts the number of digits in a number
 int count(int n){
     int count=0 ;
     do{
@@ -69,6 +70,7 @@ int menu(){
     else if (choice==6){dep();}
     else if (choice==0){system("exit");}
     else {printf("\nInvalid!!\n");  delay(50000);menu();}*/
+
     switch(choice)
     {
         case 1:
@@ -204,7 +206,7 @@ void reg(){
         scanf("%d",&cl.AccountNumber);
         if (count(cl.AccountNumber)!=9){printf("\nInvalid number try again!");}
         else {break;}
-    }
+    }//You need to enter a unique 9-Digit ID for the new client.
     FILE *pfile = fopen("database.txt","r");
 
 
@@ -236,15 +238,50 @@ void reg(){
     scanf("%s",cl.FamilyName);
     fprintf(pfile,"%s ",cl.FamilyName);
 
+    char dat[11];
 
-    while(1){
+    /*while(1){
         printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
         
         scanf("%d/%d/%d",&cl.DOB.day,&cl.DOB.month,&cl.DOB.year);
         
+        
         if ((cl.DOB.day<=31)&&(cl.DOB.month<=12)&&(cl.DOB.year>1900)&&(cl.DOB.year<2023)){break;}
         else {printf("The date's format is wrong please try again");}
+    }*/
+    char date_str[11];
+
+
+
+    // Check that the date is in the correct form(dd/mm/yyyy)
+    while(1){
+        printf("\nEnter the client's date of birth(accepted format dd/mm/yyyy): ");
+        char date_str[11];
+        scanf("%s", date_str);          
+        // Check if the date_str contains a forward slash
+        char *first_slash = strchr(date_str, '/');
+        char *last_slash = strrchr(date_str, '/');
+        if (first_slash != NULL && last_slash != NULL && first_slash != last_slash)
+            {
+                // Check if the date_str contains more than two forward slashes
+                if (strchr(first_slash+1, '/') != last_slash){
+                    printf("The date's format is wrong please try again");}
+                else {// Split the date_str into day, month, and year
+                        char *day_str = strtok(date_str, "/");
+                        char *month_str = strtok(NULL, "/");
+                        char *year_str = strtok(NULL, "/");
+                        // Convert the day, month, and year strings to integers
+                        cl.DOB.day = atoi(day_str);
+                        cl.DOB.month = atoi(month_str);
+                        cl.DOB.year = atoi(year_str);
+                        // Check if the numbers are correct
+                        if ((cl.DOB.day<=31)&&(cl.DOB.month<=12)&&(cl.DOB.year>1900)&&(cl.DOB.year<2023)){break;}}}
+                    
+        else {printf("The date's format is wrong please try again");}
     }
+
+   
+
 
 
     fprintf(pfile,"%d/%d/%d ",cl.DOB.day,cl.DOB.month,cl.DOB.year);
