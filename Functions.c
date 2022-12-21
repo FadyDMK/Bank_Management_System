@@ -21,6 +21,19 @@ struct client
     
 }old,check,rec,old2;
 
+//check if the account number exists in the text file
+int CheckNum(int AccNum){
+    FILE *pfile = fopen("database.txt","r");
+    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
+    {
+        if(old.AccountNumber==AccNum){
+            return 1;
+            fclose(pfile);
+            break;}
+
+        if (feof(pfile)==1){fclose(pfile);return 0;}
+    }
+}
 
 
 //counts the number of digits in a number
@@ -201,33 +214,18 @@ void reg(){
     printf("#################################################################\n");
     printf("#################################################################\n\n");
 
+
+    // Check whether the Account number is unique and has 9 digits
     while(1){
         printf("\nEnter the account number for client(9 digits): ");
         scanf("%d",&cl.AccountNumber);
-        if (count(cl.AccountNumber)!=9){printf("\nInvalid number try again!");}
-        else {break;}
+        if ((count(cl.AccountNumber)!=9)){printf("\nInvalid number try again!");}
+        else if (CheckNum(cl.AccountNumber)) {printf("This Account Number Already Exists. PLease Write Another One!");}
+        else if ((count(cl.AccountNumber)==9)&&!((CheckNum(cl.AccountNumber)))) {break;}
     }//You need to enter a unique 9-Digit ID for the new client.
-    FILE *pfile = fopen("database.txt","r");
-
-
-    noFile(pfile);
-
-
-    //checking if the account number is already in use
-    while(fscanf(pfile,"%d %s %s %d/%d/%d %s %d",&old.AccountNumber,old.FirstName,old.FamilyName,&old.DOB.day,&old.DOB.month,&old.DOB.year,old.Citizenship,&old.balance)!= EOF)
-        {
-            if (cl.AccountNumber==old.AccountNumber)
-            {printf("account number already in use !!!!\n Try Again \n");
-            delay(5000);
-            system("clear");
-            reg();}
-        }
-
-
-    fflush(pfile);
-    fclose(pfile);
     
-    pfile=fopen("database.txt","a");
+    
+    FILE *pfile = fopen("database.txt","a");
     noFile(pfile);
     fprintf(pfile,"\n%d ",cl.AccountNumber);
     //inputting the name 
@@ -305,8 +303,14 @@ void dep(){
     system("clear");
     printf("################## Deposit/Withdraw ####################\n");
     printf("#################################################################\n");
-    printf("\ntype the number of account of the client: \n");
-    scanf("%d",&check.AccountNumber);
+
+    while(1){
+        printf("\ntype the number of account of the client: \n");
+        scanf(" %d",&check.AccountNumber);
+        if (!(CheckNum(check.AccountNumber))){printf("This Account Does Not Exist. Please Try Again!\n");}
+        else {break;}
+    }
+    
     printf("\n1)Deposit in your account");
     printf("\n2)Withdraw from your account");
     printf("\n0)Exit\n");
@@ -367,15 +371,22 @@ void Trans(){
     system("clear");
     printf("################## Transfer Menu ####################\n");
     printf("#################################################################\n");
-    printf("type the number of account of the client: ");
-    fflush(stdout);
-    scanf(" %d",&check.AccountNumber);
+    while(1){
+        printf("\ntype the number of account of the Sender: \n");
+        scanf(" %d",&check.AccountNumber);
+        if (!(CheckNum(check.AccountNumber))){printf("This Account Does Not Exist. Please Try Again!\n");}
+        else {break;}
+    }
  
   
-    printf("\ntype the number of account of the receiver: ");
-    fflush(stdout);
-    scanf(" %d",&rec.AccountNumber);
 
+    while(1){
+        printf("\ntype the number of account of the Receiver: \n");
+        scanf(" %d",&rec.AccountNumber);
+        if (!(CheckNum(rec.AccountNumber))){printf("This Account Does Not Exist. Please Try Again!\n");}
+        if (check.AccountNumber==rec.AccountNumber) {printf("The Receiver Can't Be The Sender!\n");}
+        else {break;}
+    }
 
 
     do {

@@ -13,3 +13,4 @@ void back();
 int count(int n);
 void transfer(FILE *old, FILE *new,int a,int AccNum);
 int VerfDate(char dates);
+int CheckNum(int AccNum);
